@@ -7,6 +7,7 @@
         <uses-library android:name="android.test.runner" />
     </application>
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="me.fumiz.orm.player"
-                     android:label="Tests for me.fumiz.orm.player"/>
+                     android:targetPackage="me.fumiz.android.test.http"
+                     android:label="Tests for me.fumiz.android.test.http"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

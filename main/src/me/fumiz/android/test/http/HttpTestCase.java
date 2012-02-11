@@ -72,7 +72,7 @@ public class HttpTestCase extends AndroidTestCase {
 
     /**
      * set Request Handler from Specific TestCase.
-     * @param handler
+     * @param handler request handler
      */
     protected void setRequestHandler(TestRequestHandler handler) {
         mServer.setRequestHandler(handler);
@@ -122,6 +122,7 @@ public class HttpTestCase extends AndroidTestCase {
 
         HttpClient client = new DefaultHttpClient();
         T ret = client.execute(httpUriRequest, new ResponseHandler<T>() {
+            @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
             @Override
             public T handleResponse(HttpResponse httpResponse) throws IOException {
                 AssertionError error = tContainer.get();
