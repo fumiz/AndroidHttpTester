@@ -20,6 +20,13 @@ public class NanoTestServer extends TestServer {
     private class Server extends NanoHTTPd {
         public Server(int port) throws IOException {
             super(port);
+            mStartSignal.countDown();
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            mStopSignal.countDown();
         }
 
         @Override
@@ -61,5 +68,6 @@ public class NanoTestServer extends TestServer {
     @Override
     public void stop() {
         mServer.stop();
+        mServer = null;
     }
 }
