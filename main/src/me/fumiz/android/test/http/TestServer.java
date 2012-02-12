@@ -1,5 +1,7 @@
 package me.fumiz.android.test.http;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * TestServer interface.
  * User: fumiz
@@ -7,6 +9,9 @@ package me.fumiz.android.test.http;
  * Time: 21:07
  */
 public abstract class TestServer {
+    protected CountDownLatch mStartSignal = new CountDownLatch(1);
+    protected CountDownLatch mStopSignal = new CountDownLatch(1);
+
     /**
      * port number used by TestServer
      */
@@ -24,7 +29,7 @@ public abstract class TestServer {
 
     /**
      * init with port number
-     * @param portNumber litstening port number
+     * @param portNumber listening port number
      */
     public TestServer(int portNumber) {
         mPortNumber = portNumber;
@@ -41,6 +46,22 @@ public abstract class TestServer {
      * warning: This method must be sync method
      */
     public abstract void stop();
+
+    /**
+     * wait during server start process
+     * @throws InterruptedException throws when interrupted awaiting process
+     */
+    public void startSync() throws InterruptedException {
+        mStartSignal.await();
+    }
+
+    /**
+     * wait during server stop process
+     * @throws InterruptedException throws when interrupted awaiting process
+     */
+    public void stopSync() throws InterruptedException {
+        mStopSignal.await();
+    }
 
     /**
      * get port number

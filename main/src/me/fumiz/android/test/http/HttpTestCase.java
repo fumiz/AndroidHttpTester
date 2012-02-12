@@ -57,17 +57,19 @@ public class HttpTestCase extends AndroidTestCase {
      * set up and start TestServer.
      */
     @Override
-    public void setUp() {
+    public void setUp() throws InterruptedException {
         mServer = createTestServer();
         mServer.start();
+        mServer.startSync();
     }
 
     /**
      * shutdown TestServer.
      */
     @Override
-    public void tearDown() {
+    public void tearDown() throws InterruptedException {
         mServer.stop();
+        mServer.stopSync();
     }
 
     /**
