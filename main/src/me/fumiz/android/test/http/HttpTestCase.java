@@ -59,8 +59,7 @@ public class HttpTestCase extends AndroidTestCase {
     @Override
     public void setUp() throws InterruptedException {
         mServer = createTestServer();
-        mServer.start();
-        mServer.startSync();
+        mServer.startAndSync();
     }
 
     /**
@@ -68,8 +67,7 @@ public class HttpTestCase extends AndroidTestCase {
      */
     @Override
     public void tearDown() throws InterruptedException {
-        mServer.stop();
-        mServer.stopSync();
+        mServer.stopAndSync();
     }
 
     /**
@@ -79,7 +77,6 @@ public class HttpTestCase extends AndroidTestCase {
     protected void setRequestHandler(TestRequestHandler handler) {
         mServer.setRequestHandler(handler);
     }
-
 
     /**
      * Exception Container

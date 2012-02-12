@@ -48,6 +48,24 @@ public abstract class TestServer {
     public abstract void stop();
 
     /**
+     * server start and wait during server start process
+     * @throws InterruptedException throws when interrupted awaiting process
+     */
+    public void startAndSync() throws InterruptedException {
+        start();
+        mStartSignal.await();
+    }
+
+    /**
+     * server stop and wait during server stop process
+     * @throws InterruptedException throws when interrupted awaiting process
+     */
+    public void stopAndSync() throws InterruptedException {
+        stop();
+        mStopSignal.await();
+    }
+
+    /**
      * wait during server start process
      * @throws InterruptedException throws when interrupted awaiting process
      */
