@@ -172,4 +172,10 @@ public class HttpTestCaseTest extends HttpTestCase {
         });
         assertEquals("\n多\n字节\n\n进行反应的确认\n\n", response);
     }
+
+    public void testMultipleRequest() throws IOException {
+        testGetResponseTest();
+        testPostResponseTest();
+        testExecution();
+    }
 }
