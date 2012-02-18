@@ -1,6 +1,7 @@
 package me.fumiz.android.test.http;
 
 import android.test.AndroidTestCase;
+import junit.framework.AssertionFailedError;
 import me.fumiz.android.test.http.impl.nano.NanoTestServer;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -103,16 +104,17 @@ public class HttpTestCase extends AndroidTestCase {
      * @throws AssertionError occurred when server-side assertion failed
      */
     protected <T> T execute(final TestRequestHandler handler, final org.apache.http.client.methods.HttpUriRequest httpUriRequest, final org.apache.http.client.ResponseHandler<? extends T> responseHandler) throws IOException, AssertionError {
-        final ExceptionContainer<AssertionError> tContainer = new ExceptionContainer<AssertionError>();
+        final ExceptionContainer<AssertionFailedError> tContainer = new ExceptionContainer<AssertionFailedError>();
         setRequestHandler(new TestRequestHandler() {
             @Override
             public TestResponse onRequest(TestRequest request) {
-                AssertionError thrown = null;
+                AssertionFailedError thrown = null;
                 TestResponse result = null;
                 try {
                     result = handler.onRequest(request);
-                } catch (AssertionError e) {
+                } catch (AssertionFailedError e) {
                     thrown = e;
+                    result = new TestResponse(TestResponse.HTTP_INTERNAL_SERVER_ERROR, TestResponse.MIME_TEXTPLAIN, "AssertionFailedError occurred. if you see this message, Magnet HTTP testing framework is not working correctly.");
                 }
                 tContainer.set(thrown);
                 return result;
@@ -124,7 +126,7 @@ public class HttpTestCase extends AndroidTestCase {
             @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
             @Override
             public T handleResponse(HttpResponse httpResponse) throws IOException {
-                AssertionError error = tContainer.get();
+                AssertionFailedError error = tContainer.get();
                 if (error != null) {
                     return null;
                 }
@@ -134,7 +136,7 @@ public class HttpTestCase extends AndroidTestCase {
         client.getConnectionManager().shutdown();
         setRequestHandler(null);
 
-        AssertionError error = tContainer.get();
+        AssertionFailedError error = tContainer.get();
         if (error != null) {
             throw error;
         }

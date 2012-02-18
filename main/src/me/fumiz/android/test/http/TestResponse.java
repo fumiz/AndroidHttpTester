@@ -42,6 +42,11 @@ public class TestResponse {
     public static final String HTTP_NOTFOUND = "404 Not Found";
 
     /**
+     * 500 Internal Server Error
+     */
+    public static final String HTTP_INTERNAL_SERVER_ERROR = "500 Internal Server Error";
+
+    /**
      * MIME type
      */
     private final String mMimeType;
